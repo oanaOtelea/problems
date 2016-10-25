@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html> 
+<head> 
+
+<script> 
+operands = [['Plus', '+'], ['Minus', '-'], ['Times', '*'], ['Divede', '%']];
+solver = {
+    operands: operands,
+    //function to calculate this type of array [3, 'Plus', 1]
+    operatorFunc: function(arr) {
+        var sum = 0;
+        for (var i = 0; i < this.operands.length; i++) {
+            if (this.operands[i][0] == arr[1]) {
+                sum = eval(arr[0] + this.operands[i][1] + arr[2]);
+            }
+        }
+
+        return sum;
+        
+    },
+    //function to calculate this type of array [3, 'Plus', 1] and this [3, "Plus", [6, "Times", 2]]
+    operatorRecursive: function(arr2) {
+        var sum = 0;
+        for (var i = 0; i < this.operands.length; i++) {
+            if (this.operands[i][0] == arr2[1]) {
+                if (typeof arr2[2] == 'object') {
+                    sum = eval(arr2[0] + this.operands[i][1] + this.operatorRecursive(arr2[2]));
+                } else {
+                    sum = eval(arr2[0] + this.operands[i][1] + arr2[2]);
+                }
+            }
+        }
+
+        return sum;
+        
+    },
+}
+
+var arr = [3, 'Plus', 1];
+document.write(solver.operatorFunc(arr));
+
+
+var arr2 = [3, "Plus", [6, "Times", 2]];
+document.write(solver.operatorRecursive(arr2));
+
+</script> 
+
+</head> 
+<body> 
+
+
+</body> 
+</html>  
